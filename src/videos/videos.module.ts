@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Video, VideoSchema } from './schemas/video.schema';
+import { VideosService } from './videos.service';
 
 @Module({
   imports: [
@@ -10,6 +11,6 @@ import { Video, VideoSchema } from './schemas/video.schema';
     ),
   ],
   controllers: [],
-  providers: [],
+  providers: [VideosService],
 })
-export class CatsModule {}
+export class VideosModule {}
