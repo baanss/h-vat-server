@@ -1,13 +1,24 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Date } from 'mongoose';
 
+export enum USER_TASK {
+  VIDEO = 'VIDEO',
+  RUS = 'RUS',
+}
+
+export type Role = {
+  annotator: boolean;
+  inspector: boolean;
+  admin: boolean;
+};
+
 @Schema()
 export class User {
   @Prop()
   email: string;
 
   @Prop()
-  password: number;
+  password: string;
 
   @Prop()
   name: string;
@@ -18,10 +29,10 @@ export class User {
   @Prop({ nullable: true })
   image: string;
 
-  @Prop()
+  @Prop({ type: String, enum: USER_TASK })
   task: USER_TASK;
 
-  @Prop()
+  @Prop({ type: Object })
   role: Role;
 
   @Prop({ default: false })
@@ -36,19 +47,8 @@ export class User {
   @Prop({ default: 0 })
   accTasks: number;
 
-  @Prop({ nullable: true })
+  @Prop({ type: Date, nullable: true })
   lastLogin: Date;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
-
-export enum USER_TASK {
-  VIDEO = 'VIDEO',
-  RUS = 'RUS',
-}
-
-export type Role = {
-  annotator: boolean;
-  inspector: boolean;
-  admin: boolean;
-};
