@@ -13,4 +13,5 @@ export class CreateVideoTaskDto {
   readonly managerId: Types.ObjectId;
   readonly status: VIDEO_TASK_STATUS;
   readonly annotationType: ANNOTATION_TYPES;
+  readonly annotations: Types.ObjectId[];
 }
