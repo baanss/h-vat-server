@@ -1,24 +1,30 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+// import { HydratedDocument } from 'mongoose';
 
-export type VideoDocument = HydratedDocument<Video>;
+// export type VideoDocument = HydratedDocument<Video>;
 
 @Schema()
 export class Video {
-  @Prop()
+  @Prop({ type: String, required: true })
   indexCode: string;
 
-  @Prop()
+  @Prop({ type: String, required: true, unique: true })
   path: string;
 
-  @Prop()
+  @Prop({ type: Number, required: true })
   totalFrame: number;
 
-  @Prop()
+  @Prop({ type: Number, required: true })
+  frameRate: number;
+
+  @Prop({ type: Number, required: true })
   width: number;
 
-  @Prop()
+  @Prop({ type: Number, required: true })
   height: number;
+
+  @Prop({ type: String, required: false })
+  dataSet: string;
 }
 
 export const VideoSchema = SchemaFactory.createForClass(Video);
