@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Date, SchemaTypes, Types } from 'mongoose';
 
-@Schema()
+@Schema({ timestamps: true })
 export class Notification {
   @Prop({ type: SchemaTypes.ObjectId, ref: 'VideoTask', required: true })
   taskId: Types.ObjectId;
