@@ -1,4 +1,3 @@
-import { Date } from 'mongoose';
 import { Role, USER_TASK } from '../schemas/user.schema';
 import { ApiProperty } from '@nestjs/swagger';
 
