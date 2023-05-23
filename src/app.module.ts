@@ -5,6 +5,7 @@ import { UsersModule } from './users/users.module';
 import { VideoTasksModule } from './videoTasks/videoTasks.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { AnnotationsModule } from './annotations/annotations.module';
+import { AppController } from './app.controller';
 
 @Module({
   imports: [
@@ -15,7 +16,7 @@ import { AnnotationsModule } from './annotations/annotations.module';
     VideosModule,
     VideoTasksModule,
   ],
-  controllers: [],
+  controllers: [AppController],
   providers: [],
 })
 export class AppModule {}
