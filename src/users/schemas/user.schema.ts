@@ -13,7 +13,7 @@ export type Role = {
   admin: boolean;
 };
 
-@Schema()
+@Schema({ timestamps: true })
 export class User {
   @Prop({ type: String, unique: true, required: true })
   @ApiProperty({

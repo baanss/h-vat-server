@@ -3,7 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 // import { HydratedDocument } from 'mongoose';
 // export type VideoDocument = HydratedDocument<Video>;
 
-@Schema()
+@Schema({ timestamps: true })
 export class Video {
   @Prop({ type: String, required: true })
   @ApiProperty({

@@ -14,7 +14,7 @@ export enum VIDEO_TASK_STATUS {
   DONE = 'DONE',
 }
 
-@Schema()
+@Schema({ timestamps: true })
 export class VideoTask {
   @Prop({ type: String, unique: true, index: true, required: true })
   @ApiProperty({
