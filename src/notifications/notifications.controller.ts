@@ -30,12 +30,12 @@ export class NotificationsController {
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Fetch Notification by _id' })
   @ApiParam({
     name: 'id',
     required: true,
     description: `Notification's '_id' Value(to Fetch)`,
   })
+  @ApiOperation({ summary: 'Fetch Notification by _id' })
   @ApiResponse({
     status: 200,
     description: 'Fetch One Notification',
@@ -50,6 +50,12 @@ export class NotificationsController {
     name: 'id',
     required: true,
     description: `Notification's '_id' Value(to Delete)`,
+  })
+  @ApiOperation({ summary: 'Delete Notification by _id' })
+  @ApiResponse({
+    status: 200,
+    description: 'Delete One Notification',
+    type: Notification,
   })
   async delete(@Param('id') id: string) {
     return this.notificationsService.delete(id);
