@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { ApiProperty } from '@nestjs/swagger';
 import { SchemaTypes } from 'mongoose';
 
 export enum ANNOTATION_TYPES {
@@ -26,12 +27,22 @@ export enum ANNOTATION_TYPES {
   ORGAN_PRESENCE = 'ORGAN_PRESENCE',
 }
 
-@Schema()
+@Schema({ timestamps: true })
 export class Annotation {
   @Prop({ type: String, enum: ANNOTATION_TYPES })
+  @ApiProperty({
+    description: 'Annotation Types',
+    enum: ANNOTATION_TYPES,
+    required: true,
+  })
   type: ANNOTATION_TYPES;
 
   @Prop({ type: SchemaTypes.Mixed })
+  @ApiProperty({
+    description: 'Array List of Annotation Object',
+    default: [],
+    required: true,
+  })
   data: object[];
 }
 
