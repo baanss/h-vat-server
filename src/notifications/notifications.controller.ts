@@ -46,6 +46,11 @@ export class NotificationsController {
   }
 
   @Delete(':id')
+  @ApiParam({
+    name: 'id',
+    required: true,
+    description: `Notification's '_id' Value(to Delete)`,
+  })
   async delete(@Param('id') id: string) {
     return this.notificationsService.delete(id);
   }
