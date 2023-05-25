@@ -1,7 +1,7 @@
 import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
-import { LoggerMiddleware } from './common/middleware/logger.middleware';
+import { LoggerMiddleware } from './commons/middleware/logger.middleware';
 
 import { AnnotationsModule } from './apis/annotations/annotations.module';
 import { NotificationsModule } from './apis/notifications/notifications.module';
