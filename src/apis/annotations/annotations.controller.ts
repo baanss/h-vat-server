@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { AnnotationsService } from './annotations.service';
 import { CreateAnnotationDto } from './dto/create-annotation.dto';
-import { Annotation } from './schemas/annotation.schema';
+import { Annotation } from '../../commons/schemas/annotation.schema';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('annotations')

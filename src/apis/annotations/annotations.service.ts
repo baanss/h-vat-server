@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Annotation } from './schemas/annotation.schema';
+import { Annotation } from '../../commons/schemas/annotation.schema';
 import { Model } from 'mongoose';
 import { CreateAnnotationDto } from './dto/create-annotation.dto';
 

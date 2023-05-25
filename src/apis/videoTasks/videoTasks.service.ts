@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { VideoTask } from './schemas/videoTask.schema';
+import { VideoTask } from '../../commons/schemas/videoTask.schema';
 import { Model } from 'mongoose';
 import { CreateVideoTaskDto } from './dto/create-videoTask.dto';
 

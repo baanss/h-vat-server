@@ -1,6 +1,9 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Annotation, AnnotationSchema } from './schemas/annotation.schema';
+import {
+  Annotation,
+  AnnotationSchema,
+} from '../../commons/schemas/annotation.schema';
 import { AnnotationsController } from './annotations.controller';
 import { AnnotationsService } from './annotations.service';
 

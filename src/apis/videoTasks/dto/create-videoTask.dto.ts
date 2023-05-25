@@ -2,8 +2,8 @@ import { Types } from 'mongoose';
 import {
   VIDEO_TASK_STATUS,
   VIDEO_TASK_TYPE,
-} from '../schemas/videoTask.schema';
-import { ANNOTATION_TYPES } from 'src/apis/annotations/schemas/annotation.schema';
+} from '../../../commons/schemas/videoTask.schema';
+import { ANNOTATION_TYPES } from 'src/commons/schemas/annotation.schema';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateVideoTaskDto {

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ANNOTATION_TYPES } from '../schemas/annotation.schema';
+import { ANNOTATION_TYPES } from '../../../commons/schemas/annotation.schema';
 
 export class CreateAnnotationDto {
   @ApiProperty({

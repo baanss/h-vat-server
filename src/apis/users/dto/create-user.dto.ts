@@ -1,4 +1,4 @@
-import { Role, USER_TASK } from '../schemas/user.schema';
+import { Role, USER_TASK } from '../../../commons/schemas/user.schema';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateUserDto {

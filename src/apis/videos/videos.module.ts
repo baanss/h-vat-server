@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Video, VideoSchema } from './schemas/video.schema';
+import { Video, VideoSchema } from '../../commons/schemas/video.schema';
 import { VideosService } from './videos.service';
 import { VideosController } from './videos.controller';
 

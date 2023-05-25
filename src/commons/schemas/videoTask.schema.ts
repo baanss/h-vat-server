@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { SchemaTypes, Types } from 'mongoose';
-import { ANNOTATION_TYPES } from 'src/apis/annotations/schemas/annotation.schema';
+import { ANNOTATION_TYPES } from 'src/commons/schemas/annotation.schema';
 import { ApiProperty } from '@nestjs/swagger';
 
 export enum VIDEO_TASK_TYPE {

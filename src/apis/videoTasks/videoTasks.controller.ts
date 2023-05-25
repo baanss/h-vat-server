@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { VideoTasksService } from './videoTasks.service';
 import { CreateVideoTaskDto } from './dto/create-videoTask.dto';
-import { VideoTask } from './schemas/videoTask.schema';
+import { VideoTask } from '../../commons/schemas/videoTask.schema';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('video-tasks')
