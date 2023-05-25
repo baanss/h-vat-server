@@ -1,12 +1,13 @@
 import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { VideosModule } from './videos/videos.module';
-import { UsersModule } from './users/users.module';
-import { VideoTasksModule } from './videoTasks/videoTasks.module';
-import { NotificationsModule } from './notifications/notifications.module';
-import { AnnotationsModule } from './annotations/annotations.module';
 import { AppController } from './app.controller';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
+
+import { AnnotationsModule } from './apis/annotations/annotations.module';
+import { NotificationsModule } from './apis/notifications/notifications.module';
+import { UsersModule } from './apis/users/users.module';
+import { VideosModule } from './apis/videos/videos.module';
+import { VideoTasksModule } from './apis/videoTasks/videoTasks.module';
 
 @Module({
   imports: [

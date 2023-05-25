@@ -3,7 +3,7 @@ import {
   VIDEO_TASK_STATUS,
   VIDEO_TASK_TYPE,
 } from '../schemas/videoTask.schema';
-import { ANNOTATION_TYPES } from 'src/annotations/schemas/annotation.schema';
+import { ANNOTATION_TYPES } from 'src/apis/annotations/schemas/annotation.schema';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateVideoTaskDto {
