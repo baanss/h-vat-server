@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
-import { Date, Document, Types } from 'mongoose';
+import { Date, Document } from 'mongoose';
 
 export enum USER_TASK {
   VIDEO = 'VIDEO',

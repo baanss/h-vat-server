@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
-import { Document, Types } from 'mongoose';
+import { Document } from 'mongoose';
 // import { HydratedDocument } from 'mongoose';
 // export type VideoDocument = HydratedDocument<Video>;
 
