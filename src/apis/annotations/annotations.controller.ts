@@ -1,7 +1,10 @@
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { AnnotationsService } from './annotations.service';
 import { CreateAnnotationDto } from './dto/create-annotation.dto';
-import { Annotation } from '../../commons/schemas/annotation.schema';
+import {
+  Annotation,
+  AnnotationDocument,
+} from '../../commons/schemas/annotation.schema';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('annotations')
@@ -41,7 +44,7 @@ export class AnnotationsController {
     description: 'Fetch One Annotation',
     type: Annotation,
   })
-  async findOne(@Param('id') id: string): Promise<Annotation> {
+  async findOne(@Param('id') id: string): Promise<AnnotationDocument> {
     return this.annotationsService.findOne(id);
   }
 

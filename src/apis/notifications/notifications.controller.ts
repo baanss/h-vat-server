@@ -1,7 +1,10 @@
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { NotificationsService } from './notifications.service';
 import { CreateNotificationDto } from './dto/create-notification.dto';
-import { Notification } from '../../commons/schemas/notification.schema';
+import {
+  Notification,
+  NotificationDocument,
+} from '../../commons/schemas/notification.schema';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('notifications')
@@ -25,7 +28,7 @@ export class NotificationsController {
     description: 'Fetch All Notifications',
     type: [Notification],
   })
-  async findAll(): Promise<Notification[]> {
+  async findAll(): Promise<NotificationDocument[]> {
     return this.notificationsService.findAll();
   }
 
@@ -41,7 +44,7 @@ export class NotificationsController {
     description: 'Fetch One Notification',
     type: Notification,
   })
-  async findOne(@Param('id') id: string): Promise<Notification> {
+  async findOne(@Param('id') id: string): Promise<NotificationDocument> {
     return this.notificationsService.findOne(id);
   }
 

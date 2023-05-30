@@ -1,7 +1,10 @@
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { VideoTasksService } from './videoTasks.service';
 import { CreateVideoTaskDto } from './dto/create-videoTask.dto';
-import { VideoTask } from '../../commons/schemas/videoTask.schema';
+import {
+  VideoTask,
+  VideoTaskDocument,
+} from '../../commons/schemas/videoTask.schema';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('video-tasks')
@@ -25,7 +28,7 @@ export class VideoTasksController {
     description: 'Fetch All Video-tasks',
     type: [VideoTask],
   })
-  async findAll(): Promise<VideoTask[]> {
+  async findAll(): Promise<VideoTaskDocument[]> {
     return this.videoTasksService.findAll();
   }
 
@@ -41,7 +44,7 @@ export class VideoTasksController {
     description: 'Fetch One VideoTask',
     type: VideoTask,
   })
-  async findOne(@Param('id') id: string): Promise<VideoTask> {
+  async findOne(@Param('id') id: string): Promise<VideoTaskDocument> {
     return this.videoTasksService.findOne(id);
   }
 

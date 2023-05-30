@@ -29,14 +29,6 @@ export enum ANNOTATION_TYPES {
 
 @Schema({ timestamps: true })
 export class Annotation {
-  @Prop({ required: true, default: () => new Types.ObjectId() })
-  _id: Types.ObjectId;
-
-  // 자동으로 생성된 _id에 접근하기 위한 가상 프로퍼티
-  get id(): string {
-    return this._id.toHexString();
-  }
-
   @Prop({ type: String, enum: ANNOTATION_TYPES })
   @ApiProperty({
     description: 'Annotation Types',

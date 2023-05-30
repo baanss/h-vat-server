@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Annotation } from '../../commons/schemas/annotation.schema';
+import {
+  Annotation,
+  AnnotationDocument,
+} from '../../commons/schemas/annotation.schema';
 import { Model } from 'mongoose';
 import { CreateAnnotationDto } from './dto/create-annotation.dto';
 
@@ -11,7 +14,9 @@ export class AnnotationsService {
     private readonly annotationModel: Model<Annotation>,
   ) {}
 
-  async create(createAnnotationDto: CreateAnnotationDto): Promise<Annotation> {
+  async create(
+    createAnnotationDto: CreateAnnotationDto,
+  ): Promise<AnnotationDocument> {
     const createdAnnotation = await this.annotationModel.create(
       createAnnotationDto,
     );
@@ -22,7 +27,7 @@ export class AnnotationsService {
     return this.annotationModel.find().exec();
   }
 
-  async findOne(id: string): Promise<Annotation> {
+  async findOne(id: string): Promise<AnnotationDocument> {
     return this.annotationModel.findOne({ _id: id }).exec();
   }
 

@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { VideosService } from './videos.service';
 import { CreateVideoDto } from './dto/create-video.dto';
-import { Video } from '../../commons/schemas/video.schema';
+import { Video, VideoDocument } from '../../commons/schemas/video.schema';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('videos')
@@ -21,7 +21,7 @@ export class VideosController {
   @Get()
   @ApiOperation({ summary: 'Fetch Videos' })
   @ApiResponse({ status: 200, description: 'Fetch All Videos', type: [Video] })
-  async findAll(): Promise<Video[]> {
+  async findAll(): Promise<VideoDocument[]> {
     return this.videosService.findAll();
   }
 
@@ -33,7 +33,7 @@ export class VideosController {
   })
   @ApiOperation({ summary: 'Fetch Video by _id' })
   @ApiResponse({ status: 200, description: 'Fetch One Video', type: Video })
-  async findOne(@Param('id') id: string): Promise<Video> {
+  async findOne(@Param('id') id: string): Promise<VideoDocument> {
     return this.videosService.findOne(id);
   }
 

@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { VideoTask } from '../../commons/schemas/videoTask.schema';
+import {
+  VideoTask,
+  VideoTaskDocument,
+} from '../../commons/schemas/videoTask.schema';
 import { Model } from 'mongoose';
 import { CreateVideoTaskDto } from './dto/create-videoTask.dto';
 
@@ -11,18 +14,20 @@ export class VideoTasksService {
     private readonly videoTaskModel: Model<VideoTask>,
   ) {}
 
-  async create(createVideoTaskDto: CreateVideoTaskDto): Promise<VideoTask> {
+  async create(
+    createVideoTaskDto: CreateVideoTaskDto,
+  ): Promise<VideoTaskDocument> {
     const createdVideoTask = await this.videoTaskModel.create(
       createVideoTaskDto,
     );
     return createdVideoTask;
   }
 
-  async findAll(): Promise<VideoTask[]> {
+  async findAll(): Promise<VideoTaskDocument[]> {
     return this.videoTaskModel.find().exec();
   }
 
-  async findOne(id: string): Promise<VideoTask> {
+  async findOne(id: string): Promise<VideoTaskDocument> {
     return this.videoTaskModel.findOne({ _id: id }).exec();
   }
 

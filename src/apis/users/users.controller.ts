@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { User } from '../../commons/schemas/user.schema';
+import { User, UserDocument } from '../../commons/schemas/user.schema';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('users')
@@ -21,7 +21,7 @@ export class UsersController {
   @Get()
   @ApiOperation({ summary: 'Fetch Users' })
   @ApiResponse({ status: 200, description: 'Fetch All Users', type: [User] })
-  async findAll(): Promise<User[]> {
+  async findAll(): Promise<UserDocument[]> {
     return this.usersService.findAll();
   }
 
@@ -33,7 +33,7 @@ export class UsersController {
     description: `User's '_id' Value(to Fetch)`,
   })
   @ApiResponse({ status: 200, description: 'Fetch One User', type: User })
-  async findOne(@Param('id') id: string): Promise<User> {
+  async findOne(@Param('id') id: string): Promise<UserDocument> {
     return this.usersService.findOne(id);
   }
 

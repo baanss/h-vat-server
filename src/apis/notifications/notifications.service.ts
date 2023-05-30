@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Notification } from '../../commons/schemas/notification.schema';
+import {
+  Notification,
+  NotificationDocument,
+} from '../../commons/schemas/notification.schema';
 import { Model } from 'mongoose';
 import { CreateNotificationDto } from './dto/create-notification.dto';
 
@@ -13,18 +16,18 @@ export class NotificationsService {
 
   async create(
     createNotificationDto: CreateNotificationDto,
-  ): Promise<Notification> {
+  ): Promise<NotificationDocument> {
     const createdNotification = await this.notificationModel.create(
       createNotificationDto,
     );
     return createdNotification;
   }
 
-  async findAll(): Promise<Notification[]> {
+  async findAll(): Promise<NotificationDocument[]> {
     return this.notificationModel.find().exec();
   }
 
-  async findOne(id: string): Promise<Notification> {
+  async findOne(id: string): Promise<NotificationDocument> {
     return this.notificationModel.findOne({ _id: id }).exec();
   }
 
