@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { SchemaTypes, Types } from 'mongoose';
+import { Document, SchemaTypes, Types } from 'mongoose';
 import { ANNOTATION_TYPES } from 'src/commons/schemas/annotation.schema';
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -16,6 +16,14 @@ export enum VIDEO_TASK_STATUS {
 
 @Schema({ timestamps: true })
 export class VideoTask {
+  @Prop({ required: true, default: () => new Types.ObjectId() })
+  _id: Types.ObjectId;
+
+  // 자동으로 생성된 _id에 접근하기 위한 가상 프로퍼티
+  get id(): string {
+    return this._id.toHexString();
+  }
+
   @Prop({ type: String, unique: true, index: true, required: true })
   @ApiProperty({
     description: 'Unique Task Key (userId + videoId + annotationType)',
@@ -95,5 +103,7 @@ export class VideoTask {
   })
   annotations: Types.ObjectId[];
 }
+
+export type VideoTaskDocument = VideoTask & Document;
 
 export const VideoTaskSchema = SchemaFactory.createForClass(VideoTask);

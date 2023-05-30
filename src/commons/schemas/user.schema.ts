@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
-import { Date } from 'mongoose';
+import { Date, Document, Types } from 'mongoose';
 
 export enum USER_TASK {
   VIDEO = 'VIDEO',
@@ -15,6 +15,14 @@ export type Role = {
 
 @Schema({ timestamps: true })
 export class User {
+  @Prop({ required: true, default: () => new Types.ObjectId() })
+  _id: Types.ObjectId;
+
+  // 자동으로 생성된 _id에 접근하기 위한 가상 프로퍼티
+  get id(): string {
+    return this._id.toHexString();
+  }
+
   @Prop({ type: String, unique: true, required: true })
   @ApiProperty({
     description: '사용자의 이메일(계정)',
@@ -124,5 +132,7 @@ function validateRole(userRole: Role) {
   const roles = ['admin', 'annotator'];
   return Object.keys(userRole).every((role) => roles.includes(role));
 }
+
+export type UserDocument = User & Document;
 
 export const UserSchema = SchemaFactory.createForClass(User);

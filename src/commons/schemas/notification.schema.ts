@@ -1,9 +1,17 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
-import { Date, SchemaTypes, Types } from 'mongoose';
+import { Date, Document, SchemaTypes, Types } from 'mongoose';
 
 @Schema({ timestamps: true })
 export class Notification {
+  @Prop({ required: true, default: () => new Types.ObjectId() })
+  _id: Types.ObjectId;
+
+  // 자동으로 생성된 _id에 접근하기 위한 가상 프로퍼티
+  get id(): string {
+    return this._id.toHexString();
+  }
+
   @Prop({ type: SchemaTypes.ObjectId, ref: 'VideoTask', required: true })
   @ApiProperty({
     description: 'Corresponding Task Id',
@@ -44,5 +52,7 @@ export class Notification {
   })
   readAt: Date;
 }
+
+export type NotificationDocument = Notification & Document;
 
 export const NotificationSchema = SchemaFactory.createForClass(Notification);

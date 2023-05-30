@@ -1,10 +1,19 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
+import { Document, Types } from 'mongoose';
 // import { HydratedDocument } from 'mongoose';
 // export type VideoDocument = HydratedDocument<Video>;
 
 @Schema({ timestamps: true })
 export class Video {
+  @Prop({ required: true, default: () => new Types.ObjectId() })
+  _id: Types.ObjectId;
+
+  // 자동으로 생성된 _id에 접근하기 위한 가상 프로퍼티
+  get id(): string {
+    return this._id.toHexString();
+  }
+
   @Prop({ type: String, required: true })
   @ApiProperty({
     description: 'Index Code (Anonymize Code)',
@@ -59,6 +68,8 @@ export class Video {
   })
   dataSet: string;
 }
+
+export type VideoDocument = Video & Document;
 
 export const VideoSchema = SchemaFactory.createForClass(Video);
 
