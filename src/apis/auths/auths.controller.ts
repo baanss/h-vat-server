@@ -21,8 +21,8 @@ import { UsersService } from '../users/users.service';
 import * as bcrypt from 'bcrypt';
 import { Request, Response } from 'express';
 import { AuthGuard } from '@nestjs/passport';
-import { IUserTokenInfo } from 'src/commons/types/user-token-info.interface';
-import { IRequest } from 'src/commons/types/http-message.interface';
+import { IUserTokenInfo } from 'src/commons/interfaces/user-token-info.interface';
+import { IRequest } from 'src/commons/interfaces/http-message.interface';
 import { User } from 'src/commons/schemas/user.schema';
 
 @ApiTags('auths')
