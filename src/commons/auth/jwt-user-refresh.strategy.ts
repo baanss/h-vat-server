@@ -1,7 +1,7 @@
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-jwt';
 
-export class JwtRefreshStrategy extends PassportStrategy(
+export class JwtUserRefreshStrategy extends PassportStrategy(
   Strategy,
   'userRefresh',
 ) {
