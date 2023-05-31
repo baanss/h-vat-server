@@ -4,8 +4,8 @@ import { User, UserSchema } from 'src/commons/schemas/user.schema';
 import { AuthsController } from './auths.controller';
 import { AuthsService } from './auths.service';
 import { JwtModule } from '@nestjs/jwt';
-import { JwtUserAccessStrategy } from 'src/commons/auth/jwt-user-access.strategy';
-import { JwtUserRefreshStrategy } from 'src/commons/auth/jwt-user-refresh.strategy';
+import { JwtUserAccessStrategy } from 'src/commons/auths/jwt-user-access.strategy';
+import { JwtUserRefreshStrategy } from 'src/commons/auths/jwt-user-refresh.strategy';
 import { UsersService } from '../users/users.service';
 
 @Module({
