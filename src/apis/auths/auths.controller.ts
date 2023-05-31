@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   Post,
   Req,
   Res,
@@ -21,6 +22,7 @@ import { Request, Response } from 'express';
 import { AuthGuard } from '@nestjs/passport';
 import { IUserTokenInfo } from 'src/commons/types/user-info';
 import { IRequest } from 'src/commons/types/HTTP-Message';
+import { User } from 'src/commons/schemas/user.schema';
 
 @ApiTags('auths')
 @Controller('auths')
@@ -29,6 +31,24 @@ export class AuthsController {
     private readonly authsService: AuthsService, //
     private readonly usersService: UsersService,
   ) {}
+
+  @Get()
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'check Login User' })
+  @ApiResponse({
+    status: 200,
+    description: "Login User's Info",
+    type: User,
+  })
+  @UseGuards(AuthGuard('userAccess'))
+  async fetchLoginUser(@Req() request: Request) {
+    const userRequest: IRequest = { request };
+    const userToken: IUserTokenInfo = {
+      email: userRequest.request.user.email,
+      id: userRequest.request.user.id,
+    };
+    return await this.usersService.findOne(userToken.id);
+  }
 
   @Post('login')
   @ApiOperation({ summary: 'Login User' })
