@@ -4,6 +4,7 @@ import { AppController } from './app.controller';
 import { LoggerMiddleware } from './commons/middlewares/logger.middleware';
 
 import { AnnotationsModule } from './apis/annotations/annotations.module';
+import { AuthsModule } from './apis/auths/auths.module';
 import { NotificationsModule } from './apis/notifications/notifications.module';
 import { UsersModule } from './apis/users/users.module';
 import { VideosModule } from './apis/videos/videos.module';
@@ -13,6 +14,7 @@ import { VideoTasksModule } from './apis/videoTasks/videoTasks.module';
   imports: [
     MongooseModule.forRoot('mongodb://localhost:27017/hvat'), //
     AnnotationsModule,
+    AuthsModule,
     NotificationsModule,
     UsersModule,
     VideosModule,

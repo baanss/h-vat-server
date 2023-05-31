@@ -8,8 +8,7 @@ export class JwtAccessStrategy extends PassportStrategy(
   constructor() {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      // TODO : envConfig 분리
-      secretOrKey: 'TODO: NEED_TO_CHANGE!',
+      secretOrKey: 'secret', // TODO : envConfig 분리
       passReqToCallback: true,
     });
   }
