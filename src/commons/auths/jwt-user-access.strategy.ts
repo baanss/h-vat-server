@@ -16,8 +16,8 @@ export class JwtUserAccessStrategy extends PassportStrategy(
   async validate(req, payload) {
     // TODO: add validate Logic
     // 로그아웃 체크 등
-    console.log('req : ', req);
-    console.log('payload : ', payload);
+    // console.log('req : ', req);
+    // console.log('payload : ', payload);
 
     return {
       email: payload.email,

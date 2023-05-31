@@ -21,9 +21,13 @@ export class AuthsService {
     response.cookie('refreshToken', refreshToken, {
       httpOnly: true,
       maxAge: 2 * 7 * 24 * 60 * 60 * 1000, // 2주 동안 유효한 쿠키
+      // TODO: Production Level에서 설정 필요 (with SSL)
+      // secure: true,
+      // sameSite: 'lax',
     });
 
-    // API 요청의 마무리를 위해 응답 객체를 마무리
+    // NOTE: reponse.end 혹은 send 등의 완료처리가 되지 않으면
+    // API 요청이 마무리되지 않음 - 마무리를 위해 아래와 같은 코드를 사용할 수도 있다.
     // response.end();
   }
 
