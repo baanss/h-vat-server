@@ -19,6 +19,8 @@ import { UsersService } from '../users/users.service';
 import * as bcrypt from 'bcrypt';
 import { Request, Response } from 'express';
 import { AuthGuard } from '@nestjs/passport';
+import { IUserTokenInfo } from 'src/commons/types/user-info';
+import { IRequest } from 'src/commons/types/HTTP-Message';
 
 @ApiTags('auths')
 @Controller('auths')
@@ -51,14 +53,19 @@ export class AuthsController {
     if (!isMatch)
       throw new UnprocessableEntityException('Passwords do not match.');
 
-    this.authsService.setRefreshToken(userInfo, response);
-    const result = await this.authsService.getAccessToken(userInfo);
+    const userToken: IUserTokenInfo = {
+      email: userInfo.email,
+      id: userInfo.id,
+    };
+    this.authsService.setRefreshToken(userToken, response);
+    const result = await this.authsService.getAccessToken(userToken);
 
     response.status(200).send(result);
   }
 
   @Post('logout')
   @ApiBearerAuth()
+  @ApiOperation({ summary: 'Logout User' })
   @UseGuards(AuthGuard('userAccess'))
   async userLogout(@Req() request: Request) {
     // TODO: Logout 방식을 설정하여 구현 필요
@@ -66,5 +73,25 @@ export class AuthsController {
     // Logout시 두 Token을 BlackList 설정하여 로그아웃 할 수 있는 방식 채택.
     // 문제 - Redis에 의존? Key-Value. InMemory DB. TTL 부여가능
     // 대안 - Cookie 에 AccessToken만 설정, 로그아웃 시 쿠키 삭제?
+  }
+
+  @Post('restore-token')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Restore AccessToken' })
+  @ApiResponse({
+    status: 200,
+    description: 'Restored Access Token',
+    type: String,
+  })
+  @UseGuards(AuthGuard('userRefresh'))
+  async restoreUserAccessToken(@Req() request: Request) {
+    const userRequest: IRequest = { request };
+    const userToken: IUserTokenInfo = {
+      email: userRequest.request.user.email,
+      id: userRequest.request.user.id,
+    };
+    const result = await this.authsService.getAccessToken(userToken);
+
+    return result;
   }
 }

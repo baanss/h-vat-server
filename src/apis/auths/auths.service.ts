@@ -1,18 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { InjectModel } from '@nestjs/mongoose';
 import { Response } from 'express';
-import { Model } from 'mongoose';
-import { User, UserDocument } from 'src/commons/schemas/user.schema';
+import { IUserTokenInfo } from 'src/commons/types/user-info';
 
 @Injectable()
 export class AuthsService {
-  constructor(
-    private readonly jwtService: JwtService,
-    @InjectModel(User.name) private readonly userModel: Model<User>,
-  ) {}
+  constructor(private readonly jwtService: JwtService) {}
 
-  async setRefreshToken(user: UserDocument, response: Response) {
+  async setRefreshToken(user: IUserTokenInfo, response: Response) {
     const refreshToken = this.jwtService.sign(
       { email: user.email, id: user.id },
       { secret: 'secret', expiresIn: '2w' }, // TODO: NEED TO CHANGE
@@ -31,7 +26,7 @@ export class AuthsService {
     // response.end();
   }
 
-  async getAccessToken(user: UserDocument): Promise<string> {
+  async getAccessToken(user: IUserTokenInfo): Promise<string> {
     const accessToken = this.jwtService.sign(
       { email: user.email, id: user.id },
       { secret: 'secret', expiresIn: '1h' }, // TODO: NEED TO CHANGE
