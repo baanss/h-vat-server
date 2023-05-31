@@ -68,6 +68,7 @@ export class AuthsController {
   @ApiOperation({ summary: 'Logout User' })
   @UseGuards(AuthGuard('userAccess'))
   async userLogout(@Req() request: Request) {
+    console.log(request.headers.cookie);
     // TODO: Logout 방식을 설정하여 구현 필요
     // 현재 - AccessToken, RefreshToken을 함께 발급하여
     // Logout시 두 Token을 BlackList 설정하여 로그아웃 할 수 있는 방식 채택.
