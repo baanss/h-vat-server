@@ -9,10 +9,15 @@ import { NotificationsModule } from './apis/notifications/notifications.module';
 import { UsersModule } from './apis/users/users.module';
 import { VideosModule } from './apis/videos/videos.module';
 import { VideoTasksModule } from './apis/videoTasks/videoTasks.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost:27017/hvat'), // TODO: envConfig 설정 필요
+    ConfigModule.forRoot({
+      envFilePath: ['.env.dev'],
+      isGlobal: true,
+    }),
+    MongooseModule.forRoot(`mongodb://localhost:27017/hvat`), // TODO: envConfig 설정 필요
     AnnotationsModule,
     AuthsModule,
     NotificationsModule,

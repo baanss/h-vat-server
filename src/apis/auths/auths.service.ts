@@ -4,20 +4,22 @@ import { Response } from 'express';
 
 import { UsersService } from '../users/users.service';
 import { UserDocument } from 'src/commons/schemas/user.schema';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthsService {
   constructor(
     private readonly jwtService: JwtService, //
     private readonly usersService: UsersService,
+    private readonly configService: ConfigService,
   ) {}
 
   async setRefreshToken(user: UserDocument, response: Response): Promise<void> {
     const userInfo = await this.usersService.findOne(user.id);
 
     const secret: string = userInfo.role.admin
-      ? 'adminRefreshSecret'
-      : 'userRefreshSecret'; // TODO: envConfig 분리 필요
+      ? this.configService.get('JWT_ADMIN_REFRESH_SECRET')
+      : this.configService.get('JWT_USER_REFRESH_SECRET');
 
     const refreshToken = this.jwtService.sign(
       { email: user.email, id: user.id },
@@ -41,8 +43,8 @@ export class AuthsService {
     const userInfo = await this.usersService.findOne(user.id);
 
     const secret: string = userInfo.role.admin
-      ? 'adminAccessSecret'
-      : 'userAccessSecret'; // TODO: envConfig 분리 필요
+      ? this.configService.get('JWT_ADMIN_ACCESS_SECRET')
+      : this.configService.get('JWT_USER_ACCESS_SECRET');
 
     const accessToken = this.jwtService.sign(
       { email: user.email, id: user.id },

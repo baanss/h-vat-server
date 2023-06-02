@@ -29,9 +29,9 @@ export class UsersController {
 
   @Post()
   @ApiBearerAuth()
-  @UseGuards(AdminAccessAuthGuard)
   @ApiOperation({ summary: 'Create User' })
   @ApiResponse({ status: 200, description: 'OK' })
+  @UseGuards(AdminAccessAuthGuard)
   async create(@Body() createUserDto: CreateUserDto) {
     await this.usersService.create(createUserDto);
   }
