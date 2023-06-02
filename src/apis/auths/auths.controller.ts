@@ -20,7 +20,7 @@ import * as bcrypt from 'bcrypt';
 
 import { RequestWithUser } from 'src/commons/interfaces/request-with-user.interface';
 
-import { User } from 'src/commons/schemas/user.schema';
+import { User, UserDocument } from 'src/commons/schemas/user.schema';
 import { LoginUserDto } from './dto/login-user.dto';
 import { AuthsService } from './auths.service';
 import { UsersService } from '../users/users.service';
@@ -45,7 +45,7 @@ export class AuthsController {
     type: User,
   })
   @UseGuards(AccessGuard)
-  async fetchLoginUser(@Req() request: Request) {
+  async fetchLoginUser(@Req() request: Request): Promise<UserDocument> {
     const userRequest: RequestWithUser = request;
     return await this.usersService.findOne(userRequest.user.id);
   }
@@ -83,7 +83,7 @@ export class AuthsController {
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Logout User' })
   @UseGuards(AccessGuard)
-  async userLogout() {
+  async userLogout(): Promise<void> {
     // @Req() request: Request
     throw new ServiceUnavailableException('로그아웃 기능은 현재 준비중입니다.');
     // TODO: Logout 방식을 설정하여 구현 필요
@@ -102,7 +102,7 @@ export class AuthsController {
     type: String,
   })
   @UseGuards(RefreshGuard)
-  async restoreUserAccessToken(@Req() request: Request) {
+  async restoreUserAccessToken(@Req() request: Request): Promise<string> {
     const userRequest: RequestWithUser = request;
     const userInfo = await this.usersService.findOne(userRequest.user.id);
 
