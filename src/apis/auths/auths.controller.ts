@@ -15,15 +15,18 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { AuthsService } from './auths.service';
-import { LoginUserDto } from './dto/login-user.dto';
-import { UsersService } from '../users/users.service';
-import * as bcrypt from 'bcrypt';
 import { Request, Response } from 'express';
-import { AuthGuard } from '@nestjs/passport';
-import { IUserTokenInfo } from 'src/commons/interfaces/user-token-info.interface';
-import { IRequest } from 'src/commons/interfaces/http-message.interface';
+import * as bcrypt from 'bcrypt';
+
+import { RequestWithUser } from 'src/commons/interfaces/request-with-user.interface';
+
 import { User } from 'src/commons/schemas/user.schema';
+import { LoginUserDto } from './dto/login-user.dto';
+import { AuthsService } from './auths.service';
+import { UsersService } from '../users/users.service';
+
+import { AccessGuard } from 'src/commons/guards/access.guard';
+import { RefreshGuard } from 'src/commons/guards/refresh.guard';
 
 @ApiTags('auths')
 @Controller('auths')
@@ -41,14 +44,10 @@ export class AuthsController {
     description: "Login User's Info",
     type: User,
   })
-  @UseGuards(AuthGuard('userAccess'))
+  @UseGuards(AccessGuard)
   async fetchLoginUser(@Req() request: Request) {
-    const userRequest: IRequest = { request };
-    const userToken: IUserTokenInfo = {
-      email: userRequest.request.user.email,
-      id: userRequest.request.user.id,
-    };
-    return await this.usersService.findOne(userToken.id);
+    const userRequest: RequestWithUser = request;
+    return await this.usersService.findOne(userRequest.user.id);
   }
 
   @Post('login')
@@ -74,12 +73,8 @@ export class AuthsController {
     if (!isMatch)
       throw new UnprocessableEntityException('Passwords do not match.');
 
-    const userToken: IUserTokenInfo = {
-      email: userInfo.email,
-      id: userInfo.id,
-    };
-    this.authsService.setRefreshToken(userToken, response);
-    const result = await this.authsService.getAccessToken(userToken);
+    await this.authsService.setRefreshToken(userInfo, response);
+    const result = await this.authsService.getAccessToken(userInfo);
 
     response.status(200).send(result);
   }
@@ -87,7 +82,7 @@ export class AuthsController {
   @Post('logout')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Logout User' })
-  @UseGuards(AuthGuard('userAccess'))
+  @UseGuards(AccessGuard)
   async userLogout() {
     // @Req() request: Request
     throw new ServiceUnavailableException('로그아웃 기능은 현재 준비중입니다.');
@@ -106,15 +101,12 @@ export class AuthsController {
     description: 'Restored Access Token',
     type: String,
   })
-  @UseGuards(AuthGuard('userRefresh'))
+  @UseGuards(RefreshGuard)
   async restoreUserAccessToken(@Req() request: Request) {
-    const userRequest: IRequest = { request };
-    const userToken: IUserTokenInfo = {
-      email: userRequest.request.user.email,
-      id: userRequest.request.user.id,
-    };
-    const result = await this.authsService.getAccessToken(userToken);
+    const userRequest: RequestWithUser = request;
+    const userInfo = await this.usersService.findOne(userRequest.user.id);
 
+    const result = await this.authsService.getAccessToken(userInfo);
     return result;
   }
 }

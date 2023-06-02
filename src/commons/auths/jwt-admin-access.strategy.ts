@@ -1,14 +1,17 @@
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
+import { UsersService } from 'src/apis/users/users.service';
 
-export class JwtUserAccessStrategy extends PassportStrategy(
+export class JwtAdminAccessStrategy extends PassportStrategy(
   Strategy,
-  'userAccess',
+  'adminAccess',
 ) {
-  constructor() {
+  constructor(
+    private readonly usersService: UsersService, //
+  ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: 'userAccessSecret', // TODO : envConfig 분리
+      secretOrKey: 'adminAccessSecret', // TODO : envConfig 분리
       passReqToCallback: true,
     });
   }

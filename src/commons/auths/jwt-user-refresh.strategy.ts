@@ -12,7 +12,7 @@ export class JwtUserRefreshStrategy extends PassportStrategy(
         const refreshToken = cookie.replace('refreshToken=', '');
         return refreshToken;
       },
-      secretOrKey: 'secret', // TODO : envConfig 분리
+      secretOrKey: 'userRefreshSecret', // TODO : envConfig 분리
       passReqToCallback: true,
     });
   }

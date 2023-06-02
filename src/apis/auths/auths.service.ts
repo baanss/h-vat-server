@@ -1,16 +1,27 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Response } from 'express';
-import { IUserTokenInfo } from 'src/commons/interfaces/user-token-info.interface';
+
+import { UsersService } from '../users/users.service';
+import { UserDocument } from 'src/commons/schemas/user.schema';
 
 @Injectable()
 export class AuthsService {
-  constructor(private readonly jwtService: JwtService) {}
+  constructor(
+    private readonly jwtService: JwtService, //
+    private readonly usersService: UsersService,
+  ) {}
 
-  async setRefreshToken(user: IUserTokenInfo, response: Response) {
+  async setRefreshToken(user: UserDocument, response: Response): Promise<void> {
+    const userInfo = await this.usersService.findOne(user.id);
+
+    const secret: string = userInfo.role.admin
+      ? 'adminRefreshSecret'
+      : 'userRefreshSecret'; // TODO: envConfig 분리 필요
+
     const refreshToken = this.jwtService.sign(
       { email: user.email, id: user.id },
-      { secret: 'secret', expiresIn: '2w' }, // TODO: NEED TO CHANGE
+      { secret, expiresIn: '2w' },
     );
 
     response.cookie('refreshToken', refreshToken, {
@@ -26,10 +37,16 @@ export class AuthsService {
     // response.end();
   }
 
-  async getAccessToken(user: IUserTokenInfo): Promise<string> {
+  async getAccessToken(user: UserDocument): Promise<string> {
+    const userInfo = await this.usersService.findOne(user.id);
+
+    const secret: string = userInfo.role.admin
+      ? 'adminAccessSecret'
+      : 'userAccessSecret'; // TODO: envConfig 분리 필요
+
     const accessToken = this.jwtService.sign(
       { email: user.email, id: user.id },
-      { secret: 'secret', expiresIn: '1h' }, // TODO: NEED TO CHANGE
+      { secret, expiresIn: '1h' }, // TODO: NEED TO CHANGE
     );
     return accessToken;
   }

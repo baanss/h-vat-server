@@ -16,7 +16,6 @@ export class UsersService {
       createUserDto.password,
       10, // TODO: NEED TO CHANGE
     );
-    console.log(createUserDto.password, hashedPassword);
     const createdUser = await this.userModel.create({
       ...createUserDto,
       password: hashedPassword,

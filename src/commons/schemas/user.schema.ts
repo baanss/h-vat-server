@@ -9,7 +9,7 @@ export enum USER_TASK {
 
 export type Role = {
   annotator: boolean;
-  inspector: boolean;
+  inspector?: boolean;
   admin: boolean;
 };
 

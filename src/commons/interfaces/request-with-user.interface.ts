@@ -1,16 +1,12 @@
 import { Request } from 'express';
 
-export interface IUser {
+export interface RequestWithUser extends Request {
   user?: {
     id?: string;
     email?: string;
   };
-  headers?: {
+  headers: {
     authorization?: string;
     cookie?: string;
   };
-}
-
-export interface IRequest {
-  request?: Request & IUser;
 }

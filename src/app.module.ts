@@ -12,7 +12,7 @@ import { VideoTasksModule } from './apis/videoTasks/videoTasks.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost:27017/hvat'), //
+    MongooseModule.forRoot('mongodb://localhost:27017/hvat'), // TODO: envConfig 설정 필요
     AnnotationsModule,
     AuthsModule,
     NotificationsModule,
