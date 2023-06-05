@@ -11,6 +11,9 @@ import { VideosModule } from './apis/videos/videos.module';
 import { VideoTasksModule } from './apis/videoTasks/videoTasks.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
+import { MailerModule } from '@nestjs-modules/mailer';
+import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -23,6 +26,26 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       useFactory: async (config: ConfigService) => ({
         uri: config.get<string>('DATABASE_URI'),
       }),
+    }),
+    MailerModule.forRoot({
+      transport: {
+        service: 'gmail',
+        secure: false,
+        auth: {
+          user: process.env.MAILER_GMAIL_USER,
+          pass: process.env.MAILER_GMAIL_PASS,
+        },
+      },
+      defaults: {
+        from: process.env.MAILER_GMAIL_SENDER,
+      },
+      template: {
+        dir: __dirname + '/commons/mail-templates',
+        adapter: new PugAdapter(),
+        options: {
+          strict: true,
+        },
+      },
     }),
     AnnotationsModule,
     AuthsModule,
