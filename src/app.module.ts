@@ -9,7 +9,7 @@ import { NotificationsModule } from './apis/notifications/notifications.module';
 import { UsersModule } from './apis/users/users.module';
 import { VideosModule } from './apis/videos/videos.module';
 import { VideoTasksModule } from './apis/videoTasks/videoTasks.module';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -17,7 +17,13 @@ import { ConfigModule } from '@nestjs/config';
       envFilePath: ['.env.dev'],
       isGlobal: true,
     }),
-    MongooseModule.forRoot(`mongodb://localhost:27017/hvat`), // TODO: envConfig 설정 필요
+    MongooseModule.forRootAsync({
+      imports: [],
+      inject: [ConfigService],
+      useFactory: async (config: ConfigService) => ({
+        uri: config.get<string>('DATABASE_URI'),
+      }),
+    }),
     AnnotationsModule,
     AuthsModule,
     NotificationsModule,
