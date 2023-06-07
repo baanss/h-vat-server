@@ -23,7 +23,7 @@ export class UsersService {
     );
 
     // 메일 전송
-    const mailSent = await this.sendMailToken({ email: createUserDto.email });
+    const mailSent = await this.sendWelcomeMail({ email: createUserDto.email });
     if (!mailSent) throw new ServiceUnavailableException('메일전송 실패');
 
     const createdUser = await this.userModel.create({
@@ -52,8 +52,9 @@ export class UsersService {
     return deletedUser;
   }
 
-  async sendMailToken({ email }) {
-    const token = String(Math.floor(Math.random() * 10 ** 4)).padStart(4, '0');
+  async sendWelcomeMail({ email }): Promise<boolean> {
+    const pwdTemp = 'change_this!';
+    const serviceUrl = this.configService.get('SERVICE_URL');
 
     let result = false;
     await this.mailerService
@@ -64,9 +65,9 @@ export class UsersService {
         html: `<h1>h-vat | Hutom Video Annotation Tool</h1>
               <h2>hutom Video Annotation Tool에 오신걸 환영합니다.</h2>
               <br>
-              <span>임시 비밀번호 : ${token}<span>
+              <span>임시 비밀번호 : ${pwdTemp}<span>
               <br>
-              <span>접속 주소 : http://192.168.16.144:3000/docs`,
+              <span>접속 주소 : ${serviceUrl}`,
       })
       .then(() => {
         result = true;
