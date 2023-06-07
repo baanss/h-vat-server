@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, ServiceUnavailableException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from '../../commons/schemas/user.schema';
 import { Model } from 'mongoose';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
 import { ConfigService } from '@nestjs/config';
+import { MailerService } from '@nestjs-modules/mailer';
 
 @Injectable()
 export class UsersService {
@@ -12,13 +13,19 @@ export class UsersService {
     @InjectModel(User.name)
     private readonly userModel: Model<User>, //
     private readonly configService: ConfigService,
+    private readonly mailerService: MailerService,
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<UserDocument> {
     const hashedPassword = await bcrypt.hash(
       createUserDto.password,
-      this.configService.get('PASSWORD_SALT'),
+      parseFloat(this.configService.get('PASSWORD_SALT')),
     );
+
+    // 메일 전송
+    const mailSent = await this.sendMailToken({ email: createUserDto.email });
+    if (!mailSent) throw new ServiceUnavailableException('메일전송 실패');
+
     const createdUser = await this.userModel.create({
       ...createUserDto,
       password: hashedPassword,
@@ -43,5 +50,31 @@ export class UsersService {
       .findByIdAndRemove({ _id: id })
       .exec();
     return deletedUser;
+  }
+
+  async sendMailToken({ email }) {
+    const token = String(Math.floor(Math.random() * 10 ** 4)).padStart(4, '0');
+
+    let result = false;
+    await this.mailerService
+      .sendMail({
+        from: 'noreply@hutom.co.kr',
+        to: email,
+        subject: 'h-vat 회원가입을 환영합니다.',
+        html: `<h1>h-vat | Hutom Video Annotation Tool</h1>
+              <h2>hutom Video Annotation Tool에 오신걸 환영합니다.</h2>
+              <br>
+              <span>임시 비밀번호 : ${token}<span>
+              <br>
+              <span>접속 주소 : http://192.168.16.144:3000/docs`,
+      })
+      .then(() => {
+        result = true;
+      })
+      .catch((e) => {
+        result = false;
+        console.log(e);
+      });
+    return result;
   }
 }

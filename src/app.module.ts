@@ -12,7 +12,6 @@ import { VideoTasksModule } from './apis/videoTasks/videoTasks.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
 import { MailerModule } from '@nestjs-modules/mailer';
-import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
 
 @Module({
   imports: [
@@ -38,13 +37,6 @@ import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
       },
       defaults: {
         from: process.env.MAILER_GMAIL_SENDER,
-      },
-      template: {
-        dir: __dirname + '/commons/mail-templates',
-        adapter: new PugAdapter(),
-        options: {
-          strict: true,
-        },
       },
     }),
     AnnotationsModule,

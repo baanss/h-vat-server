@@ -31,7 +31,7 @@ export class UsersController {
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Create User' })
   @ApiResponse({ status: 200, description: 'OK' })
-  @UseGuards(AdminAccessAuthGuard)
+  // @UseGuards(AdminAccessAuthGuard)
   async create(@Body() createUserDto: CreateUserDto) {
     await this.usersService.create(createUserDto);
   }
@@ -39,6 +39,7 @@ export class UsersController {
   @Get()
   @ApiOperation({ summary: 'Fetch Users' })
   @ApiResponse({ status: 200, description: 'Fetch All Users', type: [User] })
+  @UseGuards(AdminAccessAuthGuard)
   async findAll(): Promise<UserDocument[]> {
     return this.usersService.findAll();
   }
